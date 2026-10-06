@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juniper Salon · Today's openings</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/desk"><span class="brand-mark">J</span><span class="brand-name">Juniper Salon</span></a>
+      <nav class="nav" aria-label="Staff">
+        <a href="/desk" aria-current="page">Today's openings</a>
+        <a href="/waitlist">Waitlist</a>
+        <button type="button" onclick="signOut()">Sign out</button>
+      </nav>
+    </header>
+
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <h1>Today's openings</h1>
+          <p class="muted">Each opening is offered to one matching client at a time, in waitlist order. It moves on by itself.</p>
+        </div>
+        <p class="small muted" id="demo-note" hidden></p>
+      </div>
+
+      <div class="columns">
+        <section class="stack" aria-label="Openings">
+          <div class="stack" id="notices" aria-live="polite"></div>
+          <div class="stack" id="openings"><p class="muted">Loading…</p></div>
+        </section>
+
+        <aside class="stack">
+          <form class="card form" id="new-opening">
+            <h2>Add an opening</h2>
+            <label>Service <select name="service" required></select></label>
+            <label>Stylist <select name="stylist" required></select></label>
+            <div class="form-2">
+              <label>Date <input type="date" name="date" required /></label>
+              <label>Time <input type="time" name="time" step="900" required /></label>
+            </div>
+            <p class="form-error" id="new-opening-error" role="alert" hidden></p>
+            <button type="submit">Start offering</button>
+          </form>
+
+          <form class="card form" id="settings">
+            <h2>Offer settings</h2>
+            <p class="small muted">Same-day openings are held for <strong>15 minutes</strong> per person.</p>
+            <label>Next-day openings are held for
+              <select name="nextDayHoldMinutes"></select>
+            </label>
+            <div>
+              <p class="small" style="font-weight: 600; margin-bottom: 6px">No texts between</p>
+              <div class="form-2">
+                <label class="small muted">From <input type="time" name="quietStart" required /></label>
+                <label class="small muted">Until <input type="time" name="quietEnd" required /></label>
+              </div>
+            </div>
+            <label>Stop offering this close to the appointment
+              <select name="cutoffMinutes"></select>
+            </label>
+            <p class="form-error" id="settings-error" role="alert" hidden></p>
+            <p class="form-ok" id="settings-ok" hidden>Saved. New offers will use these times.</p>
+            <button type="submit" class="btn-quiet">Save settings</button>
+          </form>
+        </aside>
+      </div>
+    </main>
+
+    <!-- F4: every staff action asks for confirmation first -->
+    <dialog id="confirm-dialog">
+      <form method="dialog" class="form" id="confirm-form">
+        <h2 id="confirm-title"></h2>
+        <p class="muted" id="confirm-body"></p>
+        <label id="confirm-reason-label" hidden>Reason (shown in the history)
+          <input name="reason" placeholder="e.g. Client kept their appointment" />
+        </label>
+        <p class="form-error" id="confirm-error" role="alert" hidden></p>
+        <div class="row">
+          <button type="button" class="btn-quiet" value="cancel" id="confirm-back">Go back</button>
+          <button type="submit" id="confirm-go"></button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="assign-dialog">
+      <form method="dialog" class="form" id="assign-form">
+        <h2>Assign this opening</h2>
+        <p class="muted" id="assign-body"></p>
+        <label>Client <select name="clientId" required></select></label>
+        <label class="confirm-check">
+          <input type="checkbox" name="calendarChecked" required />
+          <span>I checked the calendar in Square and this time is still free.</span>
+        </label>
+        <p class="form-error" id="assign-error" role="alert" hidden></p>
+        <div class="row">
+          <button type="button" class="btn-quiet" id="assign-back">Go back</button>
+          <button type="submit">Assign</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/common.js"></script>
+    <script src="/desk.js"></script>
+  </body>
+</html>

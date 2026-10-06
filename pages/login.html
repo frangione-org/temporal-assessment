@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juniper Salon · Staff sign-in</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="center">
+      <div class="narrow">
+        <div class="brand"><span class="brand-mark">J</span><span class="brand-name">Juniper Salon</span></div>
+        <form class="card form" id="login">
+          <div>
+            <h1>Staff sign-in</h1>
+            <p class="muted" style="margin-top: 6px">For Lena and the front desk.</p>
+          </div>
+          <label>Staff passcode
+            <input type="password" name="passcode" autocomplete="current-password" required autofocus />
+          </label>
+          <p class="form-error" id="error" role="alert" hidden></p>
+          <button type="submit">Sign in</button>
+        </form>
+      </div>
+    </main>
+    <script src="/common.js"></script>
+    <script>
+      document.querySelector("#login").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const error = document.querySelector("#error");
+        error.hidden = true;
+        try {
+          await api("/api/login", { method: "POST", body: { passcode: event.target.passcode.value } });
+          window.location.href = "/desk";
+        } catch (e) {
+          error.textContent = e.message;
+          error.hidden = false;
+        }
+      });
+    </script>
+  </body>
+</html>

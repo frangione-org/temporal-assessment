@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juniper Salon · Waitlist</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/desk"><span class="brand-mark">J</span><span class="brand-name">Juniper Salon</span></a>
+      <nav class="nav" aria-label="Staff">
+        <a href="/desk">Today's openings</a>
+        <a href="/waitlist" aria-current="page">Waitlist</a>
+        <button type="button" onclick="signOut()">Sign out</button>
+      </nav>
+    </header>
+
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <h1>Waitlist</h1>
+          <p class="muted">Clients who asked for an earlier appointment, in the order they joined. Earlier means first in line.</p>
+        </div>
+        <button id="add">Add a client</button>
+      </div>
+      <section class="card" id="list"><p class="muted">Loading…</p></section>
+    </main>
+
+    <dialog id="client-dialog">
+      <form method="dialog" class="form" id="client-form">
+        <h2 id="client-title">Add a client</h2>
+        <label>Name <input name="name" autocomplete="off" required /></label>
+        <label>Mobile number <input name="phone" type="tel" autocomplete="off" required /></label>
+        <div class="form-2">
+          <label>Service <select name="service" required></select></label>
+          <label>Preferred stylist <select name="stylist"></select></label>
+        </div>
+        <fieldset style="border: 0; padding: 0; margin: 0">
+          <legend class="small" style="font-weight: 600; margin-bottom: 6px">Days they can come</legend>
+          <div class="checks" id="days"></div>
+        </fieldset>
+        <fieldset style="border: 0; padding: 0; margin: 0">
+          <legend class="small" style="font-weight: 600; margin-bottom: 6px">Times of day</legend>
+          <div class="checks" id="times"></div>
+        </fieldset>
+        <label>Notes <input name="notes" placeholder="Optional, e.g. prefers texts after 9am" /></label>
+        <p class="form-error" id="client-error" role="alert" hidden></p>
+        <div class="row">
+          <button type="button" class="btn-quiet" id="client-back">Cancel</button>
+          <button type="submit" id="client-save">Add to waitlist</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/common.js"></script>
+    <script src="/waitlist.js"></script>
+  </body>
+</html>

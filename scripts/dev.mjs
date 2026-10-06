@@ -26,6 +26,9 @@ async function waitForPort(port, timeoutMs = 60_000) {
   throw new Error(`Temporal did not become ready on port ${port}.`);
 }
 
+// `npm run demo` shortens reply windows 60× so a 15-minute hold takes 15 seconds.
+if (process.argv.includes("--demo")) process.env.DEMO_SPEED ??= "60";
+
 await waitForPort(7233);
 const children = [
   spawn("npm", ["run", "dev:worker"], { stdio: "inherit" }),
@@ -48,7 +51,9 @@ for (const child of children) {
     }
   });
 }
-console.log("\nStarter is launching:");
-console.log("  App:         http://localhost:3000");
-console.log("  Temporal UI: http://localhost:8233\n");
+console.log("\nJuniper Salon waitlist is launching:");
+console.log("  App:         http://localhost:3000  (staff passcode: juniper)");
+console.log("  Temporal UI: http://localhost:8233");
+if (process.env.DEMO_SPEED) console.log(`  Demo speed:  reply windows run ${process.env.DEMO_SPEED}x faster`);
+console.log("");
 

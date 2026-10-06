@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Juniper Salon · Earlier-appointment waitlist</title>
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root {
+    --bg: #f5efe6; --surface: #fffcf7; --line: #e4d9c8; --ink: #2f2a25; --muted: #776d62;
+    --sage: #4e6e5d; --sage-soft: #e3ece5; --clay: #b5694a; --clay-soft: #f6e4da; --sand-soft: #f6ead2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif; color: var(--ink); background: #ccc; }
+  .slide {
+    width: 1280px; height: 720px; background: var(--bg); position: relative; overflow: hidden;
+    padding: 56px 72px 64px; page-break-after: always; display: flex; flex-direction: column;
+  }
+  .slide:last-child { page-break-after: auto; }
+  .eyebrow { font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sage); margin-bottom: 10px; }
+  h1 { font-family: "Iowan Old Style", Georgia, serif; font-weight: 500; font-size: 40px; line-height: 1.1; margin-bottom: 22px; max-width: 1080px; }
+  h2 { font-family: "Iowan Old Style", Georgia, serif; font-weight: 500; font-size: 24px; margin-bottom: 12px; }
+  p, li { font-size: 18px; line-height: 1.4; }
+  ul { list-style: none; display: grid; gap: 8px; }
+  ul li { padding-left: 22px; position: relative; }
+  ul li::before { content: ""; position: absolute; left: 2px; top: 10px; width: 8px; height: 8px; border-radius: 50%; background: var(--sage); }
+  .muted { color: var(--muted); }
+  .footer { position: absolute; left: 72px; right: 72px; bottom: 24px; display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+  .brand { display: flex; align-items: center; gap: 8px; }
+  .mark { width: 22px; height: 22px; border-radius: 50%; background: var(--sage); color: #fff; display: grid; place-items: center; font-family: Georgia, serif; font-size: 13px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; flex: 1; }
+  .grid-2-wide { display: grid; grid-template-columns: 1.05fr 1fr; gap: 36px; flex: 1; align-items: start; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 22px; }
+  .compact li { font-size: 16px; line-height: 1.35; }
+  .compact ul { gap: 6px; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+  .stat .num { font-family: Georgia, serif; font-size: 40px; line-height: 1; color: var(--sage); margin-bottom: 6px; }
+  .stat p { font-size: 16px; color: var(--muted); }
+  .stat.goal { background: var(--sage); border-color: var(--sage); grid-column: span 2; }
+  .stat.goal .num, .stat.goal p { color: #fff; }
+  .flow { display: grid; gap: 10px; counter-reset: step; }
+  .step { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; }
+  .step::before { counter-increment: step; content: counter(step); width: 30px; height: 30px; border-radius: 50%; background: var(--sage); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 15px; margin-top: 1px; }
+  .step p { font-size: 18px; }
+  .step.alt::before { background: var(--clay); content: "↺"; }
+  /* No box-shadow: Chrome rasterizes shadows as opaque boxes in PDF output. */
+  .shot { border-radius: 12px; border: 1px solid var(--line); width: 100%; display: block; }
+  .band { margin-top: 16px; background: var(--sage); color: #fff; border-radius: 16px; padding: 14px 22px; display: grid; grid-template-columns: 170px 1fr; gap: 20px; align-items: center; }
+  .band h2 { color: #fff; margin: 0; font-size: 22px; }
+  .band ul li { font-size: 15px; line-height: 1.35; color: #fff; }
+  .band ul li::before { background: #fff; }
+  .band ul { grid-template-columns: 1fr 1fr; gap: 6px 24px; }
+  .tag { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; margin-bottom: 12px; }
+  .tag-sim { background: var(--sand-soft); color: #7c5a1d; }
+  .tag-out { background: var(--clay-soft); color: var(--clay); }
+  .tag-decide { background: var(--sage-soft); color: var(--sage); }
+  table { border-collapse: collapse; width: 100%; }
+  td { font-size: 17px; padding: 7px 0; border-top: 1px solid var(--line); vertical-align: top; }
+  td:first-child { color: var(--muted); padding-right: 16px; width: 48%; }
+  td:last-child { font-weight: 600; }
+  .title-slide h1 { font-size: 58px; max-width: 900px; }
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .pill { background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px; font-size: 15px; }
+  .pill.warn { background: var(--clay-soft); border-color: var(--clay-soft); color: var(--clay); font-weight: 600; }
+  .quote { font-family: Georgia, serif; font-style: italic; font-size: 20px; color: var(--muted); border-left: 3px solid var(--line); padding-left: 16px; }
+</style>
+</head>
+<body>
+
+<!-- 1. Problem -->
+<section class="slide">
+  <p class="eyebrow">The problem</p>
+  <h1>Last-minute cancellations leave empty chairs, and filling them takes a lot of texting</h1>
+  <div class="grid-2-wide">
+    <div style="display: grid; gap: 14px; align-content: start">
+      <div class="card">
+        <h2>How it works today</h2>
+        <p>Note the opening in Square → scan the Google Sheet for a match → text someone from the salon phone → wait → try the next person.</p>
+        <div class="pill-row">
+          <span class="pill">Who was contacted?</span>
+          <span class="pill">Who said no?</span>
+          <span class="pill">How long have they been holding it?</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>What goes wrong</h2>
+        <ul>
+          <li>It's easy to lose track on a busy day, and some openings stay empty.</li>
+          <li>Texting everyone at once gets it filled faster, but led to two clients expecting the same Saturday haircut.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num">8–12</div><p>cancellations a week within 48 hours of the appointment</p></div>
+      <div class="stat"><div class="num">~3 in 10</div><p>of those openings get refilled today</p></div>
+      <div class="stat" style="grid-column: span 2"><div class="num">20–30 min</div><p>of back-and-forth for a hard-to-fill opening</p></div>
+      <div class="stat goal"><div class="num">5+ in 10</div><p>Your goal: refill at least half, without anyone repeatedly checking on it, and never double-book.</p></div>
+    </div>
+  </div>
+  <div class="footer"><span class="brand"><span class="mark">J</span>Juniper Salon · Earlier-appointment waitlist</span><span>1 / 5</span></div>
+</section>
+
+<!-- 2. Prototype behavior -->
+<section class="slide">
+  <p class="eyebrow">What the prototype does</p>
+  <h1>Add the opening once. It offers it to one person at a time and moves on by itself.</h1>
+  <div class="grid-2-wide">
+    <div class="flow">
+      <div class="step"><p><strong>You add the opening</strong>: service, stylist, date, time.</p></div>
+      <div class="step"><p><strong>The earliest-joined match gets a text</strong>: same service, free at that time, right stylist if they have a preference. It shows service, stylist, date, time and a reply-by time, with no price.</p></div>
+      <div class="step"><p><strong>It's held just for them</strong>: 15 minutes for same-day openings, an adjustable window for next-day ones.</p></div>
+      <div class="step"><p><strong>"Yes" books it.</strong> The client gets a confirmation, the front desk sees who accepted with the details, you add it to Square, and they leave the waitlist.</p></div>
+      <div class="step alt"><p><strong>"No", no reply, or a failed text</strong> moves it to the next match automatically. It stops when the appointment is too close or no one is left, and marks the opening <em>Not filled</em> with the full history.</p></div>
+    </div>
+    <div>
+      <img class="shot" src="assets/desk.jpg" alt="Front desk view showing an opening being offered" />
+      <p class="muted" style="font-size: 15px; margin-top: 10px">Front desk: Ana is holding the offer with a live countdown. Chloe and Rosa are next in line.</p>
+    </div>
+  </div>
+  <div class="footer"><span class="brand"><span class="mark">J</span>Juniper Salon · Earlier-appointment waitlist</span><span>2 / 5</span></div>
+</section>
+
+<!-- 3. Staff + client experience, reliability -->
+<section class="slide">
+  <p class="eyebrow">For you, Carla, and your clients</p>
+  <h1>Everything you said you lose track of, in one place</h1>
+  <div class="grid-2-wide" style="grid-template-columns: 1fr 1fr 300px">
+    <div class="card compact">
+      <h2>You and Carla</h2>
+      <ul>
+        <li>Who's holding it and how much time is left</li>
+        <li>Who declined, didn't reply, or whose text failed</li>
+        <li>Who's next, in waitlist order, and how it ended</li>
+        <li>Skip, cancel, or assign someone yourself, inside a details view with a confirmation. Assigning asks you to check Square first.</li>
+        <li>Change the next-day window and quiet hours yourself</li>
+      </ul>
+    </div>
+    <div class="card compact">
+      <h2>Your clients</h2>
+      <ul>
+        <li>A private link showing only their own offer, never other clients or their place in line</li>
+        <li>One tap: "Yes, book it" or "No thanks"</li>
+        <li>A late "yes" is told the offer has expired</li>
+        <li>A "stop sending me offers" link. They can still answer the offer they have.</li>
+        <li>No texts during quiet hours</li>
+      </ul>
+    </div>
+    <div>
+      <img class="shot" src="assets/offer.jpg" alt="Client offer page" />
+    </div>
+  </div>
+  <div class="band">
+    <h2>Why it won't lose track</h2>
+    <ul>
+      <li>Each opening runs as its own Temporal Workflow, so waits and progress survive a restart.</li>
+      <li>Only one person can hold an opening, and no one can hold two at once.</li>
+      <li>A failed text is retried 3 times, marked failed, then skipped.</li>
+      <li>Every step is recorded and can be reviewed later.</li>
+    </ul>
+  </div>
+  <div class="footer"><span class="brand"><span class="mark">J</span>Juniper Salon · Earlier-appointment waitlist</span><span>3 / 5</span></div>
+</section>
+
+<!-- 4. Simulated / excluded -->
+<section class="slide">
+  <p class="eyebrow">What's real and what isn't yet</p>
+  <h1>Simulated, still to decide, and left out on purpose</h1>
+  <div class="grid-2" style="grid-template-columns: 1fr 1fr 1fr; gap: 24px">
+    <div class="card">
+      <span class="tag tag-sim">Simulated in the prototype</span>
+      <ul>
+        <li><strong>Texts</strong> appear on screen instead of being sent. A number ending in 0000 shows what a failed text looks like.</li>
+        <li><strong>Square</strong> isn't connected. You update it as you do today, and the app reminds you.</li>
+        <li><strong>Google Sheet</strong> is replaced by a waitlist page with sample clients.</li>
+        <li><strong>Sign-in</strong> is one shared staff passcode.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag tag-decide">Placeholders for you to set</span>
+      <table>
+        <tr><td>Same-day hold</td><td>15 min (your choice)</td></tr>
+        <tr><td>Next-day hold</td><td>2 hours</td></tr>
+        <tr><td>Quiet hours</td><td>9 PM – 8 AM</td></tr>
+        <tr><td>Stop offering</td><td>30 min before</td></tr>
+      </table>
+      <p class="muted" style="font-size: 15px; margin-top: 12px">All adjustable on the front-desk page, no technical help needed.</p>
+    </div>
+    <div class="card">
+      <span class="tag tag-out">Left out, as you asked</span>
+      <ul>
+        <li>Moving the accepted client's old appointment, or re-offering it</li>
+        <li>Clients adding themselves to the waitlist (staff add them for now)</li>
+        <li>Price in the text</li>
+        <li>Tracking which staff member took an action</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span class="brand"><span class="mark">J</span>Juniper Salon · Earlier-appointment waitlist</span><span>4 / 5</span></div>
+</section>
+
+<!-- 5. Next step -->
+<section class="slide">
+  <p class="eyebrow">A practical next step</p>
+  <h1>A two-week pilot, alongside Square</h1>
+  <div class="grid-2-wide">
+    <div class="flow">
+      <div class="step"><p><strong>Pick your times</strong>: the next-day reply window and quiet hours (about five minutes).</p></div>
+      <div class="step"><p><strong>Connect a real texting service</strong> using the salon's number, and replace the shared passcode with proper sign-ins.</p></div>
+      <div class="step"><p><strong>Move the Google Sheet into the waitlist</strong> in one import, keeping each client's join date so the order is fair.</p></div>
+      <div class="step"><p><strong>Run every cancellation within 48 hours through it for two weeks.</strong> Keep updating Square as you do today.</p></div>
+    </div>
+    <div style="display: grid; gap: 16px; align-content: start">
+      <div class="stat goal" style="grid-column: auto"><div class="num">Measure</div><p>Openings refilled out of every 10 (today ~3, goal 5+), double-bookings (goal: zero), and time you and Carla spend texting.</p></div>
+      <div class="card">
+        <h2>Later, if the pilot works</h2>
+        <ul>
+          <li>Connect Square, so a cancellation starts offers automatically and an accepted offer books itself.</li>
+          <li>Let clients join the waitlist from a form you approve.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span class="brand"><span class="mark">J</span>Juniper Salon · Earlier-appointment waitlist</span><span>5 / 5</span></div>
+</section>
+
+</body>
+</html>
